@@ -15,28 +15,29 @@ public class AlarmSystem : MonoBehaviour
     {
         _alarmSound = GetComponent<AudioSource>();
         _alarmSound.volume = _minVolume;
+        _alarmSound.loop = true;
         _alarmSound.Stop();
     }
 
     public void IncreaseVolume()
     {
         _alarmSound.Play();
-        StopCoroutineChangeVolume();
+        Stop();
         _changeVolume = StartCoroutine(ChangeVolume(_maxVolume));
     }
 
     public void DecreaseVolume()
     {
-        StopCoroutineChangeVolume();
+        Stop();
         _changeVolume = StartCoroutine(ChangeVolume(_minVolume));
     }
 
     private void OnDisable()
     {
-        StopCoroutineChangeVolume();
+        Stop();
     }
 
-    private void StopCoroutineChangeVolume()
+    private void Stop()
     {
         if (_changeVolume != null)
             StopCoroutine(_changeVolume);

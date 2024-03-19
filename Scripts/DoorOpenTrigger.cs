@@ -5,29 +5,24 @@ public class DoorOpenTrigger : MonoBehaviour
     [SerializeField] private Door _door;
 
     private bool _hasOpener;
-    private bool _isOpened;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<DoorOpener>())
+        if (other.TryGetComponent<DoorOpener>(out _))
             _hasOpener = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<DoorOpener>())
+        if (other.TryGetComponent<DoorOpener>(out _))
             _hasOpener = false;
     }
 
     private void Update()
     {
-        if (_isOpened)
-            return;
-
-        if (_hasOpener && Input.GetKeyDown(KeyCode.E))
+        if (_hasOpener && !_door.isOpen && Input.GetKeyDown(KeyCode.E))
         {
-            _door.OpenDoor();
-            _hasOpener = true;
+            _door.Open();
         }
     }
 }

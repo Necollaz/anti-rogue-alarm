@@ -33,7 +33,6 @@ public class Thief : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        _door = FindObjectOfType<Door>();
     }
 
     private void Update()
@@ -49,6 +48,8 @@ public class Thief : MonoBehaviour
         {
             _alarmSystem.IncreaseVolume();
         }
+        else if (other.CompareTag("Door"))
+            _door = other.GetComponent<Door>();
     }
 
     private void OnTriggerExit(Collider other)
@@ -57,6 +58,8 @@ public class Thief : MonoBehaviour
         {
             _alarmSystem.DecreaseVolume();
         }
+        else if (other.CompareTag("Door"))
+            _door = null;
     }
 
     private void Move()
@@ -114,7 +117,7 @@ public class Thief : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E) && _door != null)
         {
             if (!_door.isOpen)
-                _door.OpenDoor();
+                _door.Open();
         }
     }
 }

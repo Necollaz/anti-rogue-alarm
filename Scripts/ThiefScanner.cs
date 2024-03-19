@@ -1,21 +1,27 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 public class ThiefScanner : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _alarmOn;
-    [SerializeField] private UnityEvent _alarmOff;
+    private AlarmSystem _alarmSystem;
+
+    private void Awake()
+    {
+        _alarmSystem = GetComponent<AlarmSystem>();
+
+        if (_alarmSystem == null)
+            Debug.Log("AlarmZone component not found on the object");
+    }
 
     private void OnTriggerEnter(Collider other)
 	{
-		if (other.GetComponent<Thief>())
-			_alarmOn?.Invoke();
+        if (other.TryGetComponent<Thief>(out _))
+            _alarmSystem?.IncreaseVolume();
 	}
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Thief>())
-            _alarmOff?.Invoke();
+        if (other.TryGetComponent<Thief>(out _))
+            _alarmSystem?.DecreaseVolume();
     }
 }
 

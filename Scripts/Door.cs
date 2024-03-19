@@ -8,7 +8,7 @@ public class Door : MonoBehaviour
 
     public bool isOpen;
 
-    public void OpenDoor()
+    public void Open()
     {
         _animator.SetTrigger(OpenTrigger);
         isOpen = true;
